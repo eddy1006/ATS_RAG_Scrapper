@@ -1,3 +1,6 @@
 [submodule "AtsRagBackend"]
 	path = AtsRagBackend
 	url = https://github.com/yvs2701/AtsRagBackend.git
+[submodule "ai-resume-matcher-frontend"]
+	path = ai-resume-matcher-frontend
+	url = https://github.com/eddy1006/ATS_RAG_Frontend.git
