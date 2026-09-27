@@ -14,7 +14,7 @@ services:
       - ats_rag_db_data:/var/lib/postgresql/data
 
   ats-rag-ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.34.4
     container_name: ats-rag-ollama
     ports:
       - "11434:11434"
@@ -22,7 +22,7 @@ services:
       - ats_rag_ollama_data:/root/.ollama
 
   ats-rag-backend:
-    image: ats-rag-backend:latest
+    image: ${DOCKER_USERNAME}/ats-rag-backend:latest
     container_name: ats-rag-backend
     ports:
       - "8080:8080"
@@ -39,9 +39,7 @@ services:
       - ats-rag-ollama
 
   ats-rag-frontend:
-    image: ats-rag-frontend:latest
-    build:
-      context: ./ai-resume-matcher-frontend
+    image: ${DOCKER_USERNAME}/ats-rag-frontend:latest
     container_name: ats-rag-frontend
     ports:
       - "3000:80"
