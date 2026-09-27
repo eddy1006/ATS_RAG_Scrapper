@@ -1,0 +1,53 @@
+name: ats-rag-stack
+
+services:
+  ats-rag-db:
+    image: pgvector/pgvector:pg16
+    container_name: ats-rag-db
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ats_rag_db_data:/var/lib/postgresql/data
+
+  ats-rag-ollama:
+    image: ollama/ollama:latest
+    container_name: ats-rag-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ats_rag_ollama_data:/root/.ollama
+
+  ats-rag-backend:
+    image: ats-rag-backend:latest
+    container_name: ats-rag-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ats-rag-db:5432/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - APIFY_API_TOKEN=${APIFY_API_TOKEN}
+      - OLLAMA_API_KEY=${OLLAMA_API_KEY}
+      - SPRING_AI_OPENAI_EMBEDDING_BASE_URL=http://ats-rag-ollama:11434/v1
+    depends_on:
+      - ats-rag-db
+      - ats-rag-ollama
+
+  ats-rag-frontend:
+    image: ats-rag-frontend:latest
+    build:
+      context: ./ai-resume-matcher-frontend
+    container_name: ats-rag-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - ats-rag-backend
+
+volumes:
+  ats_rag_db_data:
+  ats_rag_ollama_data:
