@@ -1,8 +1,6 @@
-# ATS RAG Application Stack
+# Job Search RAG Application Stack
 
-This project is a full-stack AI-powered Resume Applicant Tracking System (ATS) using Retrieval-Augmented Generation (RAG). It features a Spring Boot backend (Java 21), a React frontend, a PostgreSQL database extended with `pgvector`, and a local instance of Ollama for AI embeddings and generation.
-
-This guide explains how to configure and run the application locally using Docker.
+This project is a full-stack AI-powered Job Search tool using Retrieval-Augmented Generation (RAG). It features a Spring Boot backend (Java 21), a React frontend, a PostgreSQL database extended with `pgvector`, and an instance of Ollama for AI embeddings and generation.
 
 ## Prerequisites
 
@@ -105,4 +103,4 @@ After pushing your new images, update your running containers with:
 ```bash
 docker compose pull
 docker compose up -d
-```# ATS_RAG_Scrapper
+```
